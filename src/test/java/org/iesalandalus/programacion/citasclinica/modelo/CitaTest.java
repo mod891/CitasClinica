@@ -36,7 +36,7 @@ public class CitaTest {
 	private static LocalDateTime fechaHora1;
 	private static LocalDateTime fechaHora2;
 	
-	@BeforeClass
+	//@BeforeClass
 	public static void asignarValoresAtributos() {
 		paciente1 = new Paciente("José Ramón Jiménez Reyes", "11223344B", "950112233");
 		paciente2 = new Paciente("Andrés Rubio Del Río", "22334455Y", "666223344");
