@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class Paciente {
 
-	private static String ER_DNI = "(([0-9]{8})([a-z]))";//"[0-9]{8}";//"([0-9]{8})(.)";//;
+	private static String ER_DNI = "(([0-9]{8})([a-z]))";
 	private static String ER_TELEFONO = "([0-9]{9})";
 	
 	private String nombre;
@@ -27,7 +27,6 @@ public class Paciente {
 	public Paciente(Paciente paciente) {
 		if (paciente == null) 
 			throw new NullPointerException("paciente es null");	
-		// desdoblamiento del tiempo
 		setDni(paciente.getDni());
 		setNombre(paciente.getNombre());
 		setTelefono(paciente.getTelefono());
