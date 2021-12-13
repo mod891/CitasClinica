@@ -105,12 +105,8 @@ public class Paciente {
 	
 		int num=0;
 		char letra = '\0';
-		char [] letras = {  'T','R','W','A',
-							'G','M','Y','F',
-							'P','D','X','B',
-							'N','J','Z','S',
-							'Q','V','H','L',
-							'C','K','E' };
+		char [] letras = {  'T','R','W','A','G','M','Y','F','P','D','X','B',
+								'N','J','Z','S','Q','V','H','L','C','K','E' };
 		
 		Pattern pattern = Pattern.compile(ER_DNI);
 		Matcher matcher = pattern.matcher(dni); 
