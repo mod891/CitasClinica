@@ -1,12 +1,13 @@
 package org.iesalandalus.programacion.citasclinica;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Paciente {
 
 	private static String ER_DNI = "(([0-9]{8})([a-z]))";//"[0-9]{8}";//"([0-9]{8})(.)";//;
-	private static String ER_TELEFONO = "\\(d{9})";
+	private static String ER_TELEFONO = "([0-9]{9})";
 	
 	private String nombre;
 	private String dni;
@@ -36,33 +37,55 @@ public class Paciente {
 		return nombre;
 	}
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		if (nombre == null) 
+			throw new NullPointerException("Error: nombre nulo");
+		
+		this.nombre = formateaNombre(nombre);
+		
+	}
+	public String getIniciales() {
+		String [] pts = getNombre().split("\\s");
+		String resultado = "";
+		for (int i=0; i<pts.length; i++) {
+			resultado += pts[i].charAt(0);
+		}
+		return resultado;
 	}
 	public String getDni() {
 		return dni;
 	}
-	public void setDni(String dni) {
-		this.dni = dni;
+	
+	
+	private void setDni(String dni) {
+		if (comprobarLetraDni(dni)) 
+			this.dni = dni;
+		else throw new IllegalArgumentException("Error: dni no valido");
 	}
 	public String getTelefono() {
 		return telefono;
 	}
 	public void setTelefono(String telefono) {
-		this.telefono = telefono;
+		
+		Pattern pattern = Pattern.compile(ER_TELEFONO);
+		Matcher matcher = pattern.matcher(telefono); 
+	
+		if (matcher.matches()) {
+			this.telefono = matcher.group();
+		} else
+			throw new IllegalArgumentException("Error: Telefono no valido");
 	}
+	
 	/*
 	 * Crea el método formateaNombre. Este método debe normalizar un nombre eliminando caracteres en blanco de sobra 
 	 * y poniendo en mayúsculas la primera letra de cada palabra y en minúsculas las demás.
 	 */
 	private String formateaNombre(String nombre) {
-		// regexp java
-	//	Pattern erNombre = Pattern.compile("([A-z]*) ([A-z]*) ([A-z]*)");
-	//	Matcher matcher = erNombre.matcher(nombre); matches();
+
 		char primeraLetra;
 		String aux, result="";
-		
 		nombre = nombre.trim();
 		String [] pts = nombre.split("\\W+");
+		
 		for (int i=0; i<pts.length; i++) {
 			primeraLetra = pts[i].charAt(0);
 			aux = primeraLetra+"";
@@ -73,40 +96,74 @@ public class Paciente {
 		
 		return result;
 	}
-	/*
-	Crea el método comprobarLetraDni. 	Este método hará uso de los grupos de
-	las expresiones regulares (para ello has debido definir la expresión regular con grupos)
-	para quedarse con el número por un lado y con la letra por otro. Para saber si la letra es válida 
-	puedes seguir las instrucciones del siguiente enlace
-	*/
+	
+/*
+ 	algoritmo letra del dni: 
+ 	el resto de dividir el valor numerico entre 23 da un resto que corresponde a la letra
+ 	 del dni en un array de 23 posiciones 
+ */
 	private boolean comprobarLetraDni(String dni) {
-		/*
-		 	algoritmo letra dni: parte entera / 23 y resto de dividir 0 a 22 equivale a una letra
-		 */
-		int digitos;
-		char letra;
-		char [] letras = { 'T','R','W','A','G','M','Y','F','P','D','X','B','N','J','Z','S','Q','V','H','L','C','K','E'};
+	
+		int num=0;
+		char letra = '\0';
+		char [] letras = {  'T','R','W','A',
+							'G','M','Y','F',
+							'P','D','X','B',
+							'N','J','Z','S',
+							'Q','V','H','L',
+							'C','K','E' };
+		
 		Pattern pattern = Pattern.compile(ER_DNI);
 		Matcher matcher = pattern.matcher(dni); 
-		
-		// while (matcher.find()) System.out.println(matcher.group() +" group");
-		
+	
 		if (matcher.matches()) {
-			/*	System.out.println(matcher.group(3)+" 3 c");
-			System.out.println(matcher.group(2)+" 2 int");
-			*/	
-			digitos = Integer.parseInt( matcher.group(2) );
-			letra =  matcher.group(3).charAt(0) ;
-			System.out.println(digitos+":"+letra);
-			
-		}
 		
-		return true;
+			num = Integer.parseInt( matcher.group(2) );
+			letra =  Character.toUpperCase( matcher.group(3).charAt(0) );
+
+		} else
+			throw new IllegalArgumentException("Formato de dni invalido");
+		
+		num = (num % 23);
+		
+		if (letras[num] == letra) 
+			return true;		
+		 else 
+			return false;	
 	}
+	@Override
+	public int hashCode() {
+		return Objects.hash(dni, nombre, telefono);
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Paciente other = (Paciente) obj;
+		return Objects.equals(dni, other.dni);
+		// && Objects.equals(nombre, other.nombre) && Objects.equals(telefono, other.telefono);
+	// sabiendo que dos pacientes se considerarán iguales si su DNI es el mismo.
+	}
+	
+	@Override
+	public String toString() {
+		return "Nombre: ("+this.getIniciales()+") "+this.getNombre()+"\n"+
+				"DNI:"+this.getDni()+"\n"+
+				"Telefono:"+this.getTelefono()+"\n";
+	}
+	
 	public static void main(String args[]) {
-		String aux="david motOs olmEdo";
-		Paciente p = new Paciente("21231532a","a","a");
-		p.comprobarLetraDni("21231532a");
-		System.out.println(p.formateaNombre(aux));
+
+		try {
+			Paciente p = new Paciente("23305525q","DaviD motOs olmedO","662626626");
+			System.out.println(p.toString());
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+
 	}
 }
