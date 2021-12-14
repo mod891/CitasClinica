@@ -146,19 +146,8 @@ public class Paciente {
 	
 	@Override
 	public String toString() {
-		return "Nombre: ("+this.getIniciales()+") "+this.getNombre()+"\n"+
-				"DNI:"+this.getDni()+"\n"+
-				"Telefono:"+this.getTelefono()+"\n";
-	}
-	
-	public static void main(String args[]) {
-
-		try {
-			Paciente p = new Paciente("23305525q","DaviD motOs olmedO","662626626");
-			System.out.println(p.toString());
-		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
-		}
-
+		return "Nombre: ("+this.getIniciales()+") "+this.getNombre()+" ,"+
+				"DNI:"+this.getDni()+", "+
+				"Telefono:"+this.getTelefono()+"";
 	}
 }
