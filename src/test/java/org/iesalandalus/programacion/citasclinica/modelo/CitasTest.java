@@ -12,6 +12,9 @@ import java.time.LocalDateTime;
 
 import javax.naming.OperationNotSupportedException;
 
+import org.iesalandalus.programacion.citasclinica.Cita;
+import org.iesalandalus.programacion.citasclinica.Citas;
+import org.iesalandalus.programacion.citasclinica.Paciente;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
