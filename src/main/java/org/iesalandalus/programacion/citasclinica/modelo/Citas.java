@@ -24,7 +24,6 @@ public class Citas {
 		return citas;
 	}
 	public Cita[] getCitas(LocalDate localDate) {
-		// localdate en rango de fecha? no pueden existir 2 citas misma fecha y hora
 		return citas;
 	}
 	public int getTamano() {
@@ -126,7 +125,7 @@ public class Citas {
 	
 	public static void main(String args[]) {
 		
-		Paciente paciente = new Paciente("23305525q","DaviD motOs olmedO","623456789");
+		Paciente paciente = new Paciente("32423425q","DaviD motOs olmedO","623456789");
 		LocalDateTime fechaHora = LocalDateTime.now(), fechaHora2, fechaHora3;
 		fechaHora2 = LocalDateTime.of(2020, 11, 1, 23, 59);
 	 	Cita cita1  = new Cita(paciente,fechaHora);

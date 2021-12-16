@@ -76,7 +76,7 @@ public class Cita {
 	public static void main(String args[]) {
 
 		try {
-			Paciente paciente = new Paciente("23305525q","DaviD motOs olmedO","623456789");
+			Paciente paciente = new Paciente("32423425q","DaviD motOs olmedO","623456789");
 			LocalDateTime fechaHora = LocalDateTime.now();
 			
 		 	Cita cita  = new Cita(paciente,fechaHora);
