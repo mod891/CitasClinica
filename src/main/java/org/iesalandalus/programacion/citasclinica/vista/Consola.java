@@ -72,39 +72,97 @@ public class Consola {
 	Crea el método leerFechaHora que nos pedirá que introduzcamos una cadena correspondiente a
 	una fecha y hora en el formato adecuado y devolverá el objeto LocalDateTime correspondiente. 
 	Esto se repetirá mientras la fecha y hora introducida no sea válida. */
-	public LocalDateTime leerFechaHora() {
+	public static LocalDateTime leerFechaHora() {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy HH:mm");
 		LocalDateTime fechaHora = null;
-		boolean fechaHoraValida = false;
-		
-		// regexp? matcher no porque limites de minutos max 60. regexp no
-		// comprobacion cadena con strings
+		boolean fechaHoraValida = false, fechaValida = false, horaValida = false;		
+		boolean esBisiesto = false;
 		
 		String str;
 		String [] pts;
+		String [] arr1,arr2;
+		int anio=0, mes=0, dia=0, hora=0, minuto=0;
+		
 		while (!fechaHoraValida) {
 			
 			System.out.println("Introduzca la fecha y hora en formato dd/mm/yyyy HH:mm ej: 10/11/2100 00:59");
 			str = Entrada.cadena();
-			fechaHora = LocalDateTime.parse(str,formatter);
-			// 1ero regexp
-		
-			// 2ndo comprobacion rango valido + añobisiesto + 31 / 30 
+			pts = str.split("\\s");
 			
-			System.out.println(fechaHora.toString()); // ???
-			//str.split("\\s");
-			
-			
-			
-		} 
-		
-		
+			if (pts.length == 2) {				
+				arr1 = pts[0].split("/"); // fecha				
+				arr2 = pts[1].split(":"); // hora
+				
+				if (arr1.length == 3) { 
+					anio = Integer.parseInt(arr1[2]);
+					mes = Integer.parseInt(arr1[1]);
+					dia  = Integer.parseInt(arr1[0]);
+					
+					if (anio % 4 == 0) {
+						esBisiesto = true;
+						if (anio % 100 == 0) { // divisible por 100 acaba en 00
+							esBisiesto = false;
+							if (anio % 400 == 0) 
+								esBisiesto = true;	
+						}
+					}
+					if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
+						if (dia <= 31 && dia >= 1) 
+							fechaValida = true;
+					} else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
+						if (dia <= 30 && dia >= 1) 
+							fechaValida = true;				
+					}  else if (mes == 2) {
+						if (esBisiesto) {
+							if (dia <= 29 && dia >= 1)	
+								fechaValida = true;
+						} else {
+							if (dia <= 28 && dia >= 1)		
+								fechaValida = true;
+						}
+					} else fechaValida = false;
+				} // else throw ?  while obliga a repetir
+				
+				if (fechaValida) {
+					if (arr2.length == 2) {
+						hora = Integer.parseInt(arr2[0]);
+						minuto = Integer.parseInt(arr2[1]);
+						if (hora >= 0 && hora < 24) {
+							if (minuto >= 0 && minuto <= 59) 
+								horaValida = true;
+						}
+					}
+				}
+				if (fechaValida && horaValida) {
+					fechaHoraValida = true;
+					fechaHora = LocalDateTime.of(anio,mes,dia,hora,minuto,0);
+				}
+			}	
+		}
 		return fechaHora;
 	}
 	public LocalDate leerFecha() {
 		LocalDate localDate = null;
 		return localDate;
+	}
+	
+	public static void main(String args[]) {
+		// 29/02/2016 23:59
+		// 29/02/2017 00:10
+		// 19/03/1991 20:00
+		LocalDateTime fechaHora = null;
+		Paciente paciente = null;
+		try {
+			paciente =  Consola.leerPaciente(); 
+			fechaHora = Consola.leerFechaHora();
+			
+		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		}
+			
+
+		System.out.println(fechaHora.toString());
 	}
 
 }

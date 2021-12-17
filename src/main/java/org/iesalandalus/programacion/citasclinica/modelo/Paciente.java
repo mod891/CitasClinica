@@ -98,7 +98,7 @@ public class Paciente {
 	
 /*
  	algoritmo letra del dni: 
- 	el resto de dividir el valor numerico entre 23 da un resto que corresponde a la letra
+ 	el resto de dividir el valor numérico entre 23 da un resto que corresponde a la letra
  	 del dni en un array de 23 posiciones 
  */
 	private boolean comprobarLetraDni(String dni) {

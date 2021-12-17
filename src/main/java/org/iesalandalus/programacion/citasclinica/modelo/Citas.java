@@ -114,6 +114,7 @@ public class Citas {
 		this.tamano--;
 	
 	}
+	/*	
 	@Override
 	public String toString() {
 		String msg = "";
@@ -122,7 +123,7 @@ public class Citas {
 		}
 		return msg;
 	}
-	
+
 	public static void main(String args[]) {
 		
 		Paciente paciente = new Paciente("32423425q","DaviD motOs olmedO","623456789");
@@ -158,5 +159,5 @@ public class Citas {
 		} catch (OperationNotSupportedException e) {
 			System.out.println(e.getMessage());
 		}
-	}
+	} */
 }
