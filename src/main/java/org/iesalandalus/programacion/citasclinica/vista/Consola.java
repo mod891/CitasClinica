@@ -50,9 +50,13 @@ public class Consola {
 	
 	}
 	
-	public static Cita leerCita() {
+	public static Cita leerCita() throws UnsupportedOperationException {
 		Paciente paciente = null;
 		LocalDateTime fechaHora = null;
+		
+		paciente =  leerPaciente(); 
+		fechaHora = leerFechaHora();
+
 		return new Cita(paciente,fechaHora);
 	}
 	public static Paciente leerPaciente() throws UnsupportedOperationException {
@@ -121,8 +125,8 @@ public class Consola {
 							if (dia <= 28 && dia >= 1)		
 								fechaValida = true;
 						}
-					} else fechaValida = false;
-				} // else throw ?  while obliga a repetir
+					} 
+				} 
 				
 				if (fechaValida) {
 					if (arr2.length == 2) {
@@ -151,18 +155,24 @@ public class Consola {
 		// 29/02/2016 23:59
 		// 29/02/2017 00:10
 		// 19/03/1991 20:00
+		Cita cita = null;
 		LocalDateTime fechaHora = null;
 		Paciente paciente = null;
 		try {
-			paciente =  Consola.leerPaciente(); 
-			fechaHora = Consola.leerFechaHora();
+		//	fechaHora = Consola.leerFechaHora();
+			LocalDate localDate = LocalDate.of(2020, 2, 30);// 
+			System.out.println(localDate.toString());
+			// usar excepciones DateTimeException para saber si esta bien la fecha
+			//	 
+			//	 System.out.println(cita.toString());
 			
 		} catch (IllegalArgumentException e) {
+			System.out.println(e.getMessage());
+		} catch (UnsupportedOperationException e) {
 			System.out.println(e.getMessage());
 		}
 			
 
-		System.out.println(fechaHora.toString());
 	}
 
 }
