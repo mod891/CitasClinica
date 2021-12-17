@@ -1,5 +1,6 @@
 package org.iesalandalus.programacion.citasclinica.vista;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -78,14 +79,13 @@ public class Consola {
 	Esto se repetirá mientras la fecha y hora introducida no sea válida. */
 	public static LocalDateTime leerFechaHora() {
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/mm/yyyy HH:mm");
 		LocalDateTime fechaHora = null;
+		LocalDate fecha;
 		boolean fechaHoraValida = false, fechaValida = false, horaValida = false;		
-		boolean esBisiesto = false;
+	
 		
 		String str;
-		String [] pts;
-		String [] arr1,arr2;
+		String [] pts, arrayFecha, arrayHora;
 		int anio=0, mes=0, dia=0, hora=0, minuto=0;
 		
 		while (!fechaHoraValida) {
@@ -95,59 +95,49 @@ public class Consola {
 			pts = str.split("\\s");
 			
 			if (pts.length == 2) {				
-				arr1 = pts[0].split("/"); // fecha				
-				arr2 = pts[1].split(":"); // hora
+				arrayFecha = pts[0].split("/"); // fecha				
+				arrayHora = pts[1].split(":"); // hora
 				
-				if (arr1.length == 3) { 
-					anio = Integer.parseInt(arr1[2]);
-					mes = Integer.parseInt(arr1[1]);
-					dia  = Integer.parseInt(arr1[0]);
-					
-					if (anio % 4 == 0) {
-						esBisiesto = true;
-						if (anio % 100 == 0) { // divisible por 100 acaba en 00
-							esBisiesto = false;
-							if (anio % 400 == 0) 
-								esBisiesto = true;	
-						}
-					}
-					if (mes == 1 || mes == 3 || mes == 5 || mes == 7 || mes == 8 || mes == 10 || mes == 12) {
-						if (dia <= 31 && dia >= 1) 
-							fechaValida = true;
-					} else if (mes == 4 || mes == 6 || mes == 9 || mes == 11) {
-						if (dia <= 30 && dia >= 1) 
-							fechaValida = true;				
-					}  else if (mes == 2) {
-						if (esBisiesto) {
-							if (dia <= 29 && dia >= 1)	
-								fechaValida = true;
-						} else {
-							if (dia <= 28 && dia >= 1)		
-								fechaValida = true;
-						}
-					} 
+				if (arrayFecha.length == 3) { 
+					anio = Integer.parseInt(arrayFecha[2]);
+					mes = Integer.parseInt(arrayFecha[1]);
+					dia  = Integer.parseInt(arrayFecha[0]);		
 				} 
-				
-				if (fechaValida) {
-					if (arr2.length == 2) {
-						hora = Integer.parseInt(arr2[0]);
-						minuto = Integer.parseInt(arr2[1]);
-						if (hora >= 0 && hora < 24) {
-							if (minuto >= 0 && minuto <= 59) 
-								horaValida = true;
-						}
-					}
+				if (arrayHora.length == 2) {
+					hora = Integer.parseInt(arrayHora[0]);
+					minuto = Integer.parseInt(arrayHora[1]);
 				}
-				if (fechaValida && horaValida) {
-					fechaHoraValida = true;
+				try {
 					fechaHora = LocalDateTime.of(anio,mes,dia,hora,minuto,0);
+					fechaHoraValida = true;
+					
+				} catch (DateTimeException e ) {
+					System.out.println(e.getMessage());
 				}
-			}	
+			}
 		}
 		return fechaHora;
 	}
-	public LocalDate leerFecha() {
+	public static LocalDate leerFecha() {
 		LocalDate localDate = null;
+		boolean fechaValida = false;
+		String fecha;
+		String [] pts;
+		while (!fechaValida) {
+			
+			System.out.println("Introduzca una fecha en formato dd/mm/yyyy");
+			fecha = Entrada.cadena();
+		
+			try {
+				pts = fecha.split("/");
+				localDate = LocalDate.of(Integer.parseInt(pts[0]),Integer.parseInt(pts[1]),Integer.parseInt(pts[2]));
+				fechaValida = true;
+			} catch (DateTimeException e) {
+				System.out.println(e.getMessage());
+				
+			}
+		}
+		
 		return localDate;
 	}
 	
@@ -159,12 +149,9 @@ public class Consola {
 		LocalDateTime fechaHora = null;
 		Paciente paciente = null;
 		try {
-		//	fechaHora = Consola.leerFechaHora();
-			LocalDate localDate = LocalDate.of(2020, 2, 30);// 
+			//fechaHora = Consola.leerFechaHora();
+			LocalDate localDate = Consola.leerFecha();
 			System.out.println(localDate.toString());
-			// usar excepciones DateTimeException para saber si esta bien la fecha
-			//	 
-			//	 System.out.println(cita.toString());
 			
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
