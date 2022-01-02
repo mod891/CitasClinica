@@ -72,21 +72,5 @@ public class Cita {
 	public String toString() {
 		return "Cita [fechaHora=" + fechaHora + ", paciente=" + paciente.toString() + "]";
 	}
-	
-	public static void main(String args[]) {
-
-		try {
-			Paciente paciente = new Paciente("32423425q","DaviD motOs olmedO","623456789");
-			LocalDateTime fechaHora = LocalDateTime.now();
-			
-		 	Cita cita  = new Cita(paciente,fechaHora);
-		 	System.out.println(paciente.toString());
-		 	Cita cita2   = new Cita(cita);
-		 	System.out.println(cita2.toString());
-		} catch (IllegalArgumentException e) {
-			System.out.println(e.getMessage());
-		}
-
-	}
 
 }

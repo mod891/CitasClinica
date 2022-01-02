@@ -18,6 +18,7 @@ public class Citas {
 		
 		capacidad = n;
 		citas = new Cita[capacidad];
+		tamano = 0;
 	}
 	
 	public Cita[] getCitas() {
@@ -36,12 +37,12 @@ public class Citas {
 	public void insertar(Cita cita) throws OperationNotSupportedException {
 		
 		if (this.capacidadSuperada(getTamano()))
-			throw new ArrayIndexOutOfBoundsException("Error: capacidad superada");
+			throw new OperationNotSupportedException("Error: capacidad superada");
 		
 		if (cita == null) 
 			throw new NullPointerException("Error: cita es nulo");
 
-		if (buscar(cita) == null) {
+		if (buscar(cita) == null) { // no existe se inserta
 			this.citas[this.tamano] = cita;
 			this.tamano++;			
 		} else
@@ -82,7 +83,7 @@ public class Citas {
 			throw new NullPointerException("Error: Cita es null");
 		
 		for (int i=0; i<getTamano(); i++ ) {
-			if (citas[i].getFechaHora() == cita.getFechaHora())
+			if (citas[i].getFechaHora().equals(cita.getFechaHora()))
 				return new Cita(citas[i]);				
 		}
 		return null;
@@ -114,19 +115,19 @@ public class Citas {
 		this.tamano--;
 	
 	}
-	/*	
+	
 	@Override
 	public String toString() {
 		String msg = "";
 		for (int i=0; i<getTamano(); i++) {
 			msg += citas[i].toString()+"\n";
 		}
-		return msg;
+		return msg+"\ntam:"+this.tamano;
 	}
-
+	/*
 	public static void main(String args[]) {
 		
-		Paciente paciente = new Paciente("32423425q","DaviD motOs olmedO","623456789");
+		Paciente paciente = new Paciente("23305525q","DaviD motOs olmedO","623456789");
 		LocalDateTime fechaHora = LocalDateTime.now(), fechaHora2, fechaHora3;
 		fechaHora2 = LocalDateTime.of(2020, 11, 1, 23, 59);
 	 	Cita cita1  = new Cita(paciente,fechaHora);
@@ -154,10 +155,8 @@ public class Citas {
 				System.out.println("buscada:" +buscada.toString());
 		} catch (NullPointerException e) {
 			System.out.println(e.getMessage());
-		} catch (ArrayIndexOutOfBoundsException e ) {
-			System.out.println(e.getMessage());
 		} catch (OperationNotSupportedException e) {
 			System.out.println(e.getMessage());
 		}
-	} */
+	} 		*/
 }

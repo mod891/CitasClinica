@@ -80,9 +80,7 @@ public class Consola {
 	public static LocalDateTime leerFechaHora() {
 		
 		LocalDateTime fechaHora = null;
-		LocalDate fecha;
-		boolean fechaHoraValida = false, fechaValida = false, horaValida = false;		
-	
+		boolean fechaHoraValida = false;
 		
 		String str;
 		String [] pts, arrayFecha, arrayHora;
@@ -123,8 +121,7 @@ public class Consola {
 		boolean fechaValida = false;
 		String fecha;
 		String [] pts;
-		while (!fechaValida) {
-			
+		while (!fechaValida) {		
 			System.out.println("Introduzca una fecha en formato dd/mm/yyyy");
 			fecha = Entrada.cadena();
 		
@@ -140,7 +137,7 @@ public class Consola {
 		
 		return localDate;
 	}
-	
+	/*
 	public static void main(String args[]) {
 		// 29/02/2016 23:59
 		// 29/02/2017 00:10
@@ -149,9 +146,10 @@ public class Consola {
 		LocalDateTime fechaHora = null;
 		Paciente paciente = null;
 		try {
-			//fechaHora = Consola.leerFechaHora();
-			LocalDate localDate = Consola.leerFecha();
-			System.out.println(localDate.toString());
+			//fechaHora = Consola.leerFechaHora(); ec
+			// LocalDate localDate = Consola.leerFecha();
+			cita = Consola.leerCita();
+			System.out.println(cita.toString());
 			
 		} catch (IllegalArgumentException e) {
 			System.out.println(e.getMessage());
@@ -161,5 +159,5 @@ public class Consola {
 			
 
 	}
-
+*/
 }
