@@ -24,12 +24,33 @@ public class Citas {
 	public Cita[] getCitas() {
 		return citas;
 	}
+	
 	public Cita[] getCitas(LocalDate localDate) {
-		return citas;
+		int total = 0;
+		// no se sabe cuantas citas va a encontrar asi que se reserva memoria
+		Cita[] aux = new Cita[capacidad]; 
+		Cita[] result = null;
+		for (int i=0; i<this.getTamano(); i++) {
+			if (this.citas[i].getFechaHora().toLocalDate().equals(localDate)) {
+				aux[total] = this.citas[i];
+				total++;
+			}
+		}
+		// y despues se pasa un array de tamaño justo o nulo si no hay ninguna
+		if (total > 0) {
+			result = new Cita[total];
+			for (int i=0; i<total; i++) {
+				result[i] = aux[i];
+			}
+		}	
+		
+		return result;
 	}
+	
 	public int getTamano() {
 		return tamano;
 	}
+	
 	public int getCapacidad() {
 		return capacidad;
 	}
@@ -95,7 +116,8 @@ public class Citas {
 		if (buscada != null) {
 			indice = this.buscarIndice(buscada);
 			this.desplazarUnaPosicionHaciaIzquierda(indice);
-		} else throw new NullPointerException("Error: La cita buscada no existe");
+		} else 
+			throw new NullPointerException("Error: La cita buscada no existe");
 	}
 	
 	private void desplazarUnaPosicionHaciaIzquierda(int pos) {

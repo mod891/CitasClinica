@@ -14,41 +14,37 @@ public class Consola {
 		
 	}
 	public static void mostrarMenu() {
+		System.out.println("PROGRAMA CITAS DE UNA CLINICA");
+		System.out.println("-----------------------------");
 		System.out.println("1 - Insertar cita");
 		System.out.println("2 - Buscar cita");
 		System.out.println("3 - Borrar cita");
 		System.out.println("4 - Mostrar todas las citas");
-		System.out.println("5 - Mostrar citas de una fecha");
-		System.out.println("6 - salir");
+		System.out.println("5 - Mostrar citas de un dia");
+		System.out.println("0 - Salir");
 	}
 	
 	
 	public static Opciones elegirOpcion() {
 		int num = 0;
-		Opciones opcion = null;
 		do {
 			System.out.println("Elija una opcion:");
 			num = Entrada.entero();
-		} while (num >= 1 || num <= 6 );
+		} while (num < 0 || num > 5 );
 		
-		switch (num) {
-		case 1:
-			opcion = Opciones.INSERTAR_CITA;
-		case 2:
-			opcion = Opciones.BUSCAR_CITA;
-		case 3:
-			opcion = Opciones.BORRAR_CITA;
-		case 4:
-			opcion = Opciones.MOSTRAR_CITAS;
-		case 5:
-			opcion = Opciones.MOSTRAR_CITAS_DIA;
-		case 6:
-			opcion = null;
+		if (num == 1)
+			return Opciones.INSERTAR_CITA;
+		else if (num == 2)
+			return Opciones.BUSCAR_CITA;
+		else if (num == 3)
+			return Opciones.BORRAR_CITA;
+		else if (num == 4)
+			return Opciones.MOSTRAR_CITAS;
+		else if (num == 5)
+			return Opciones.MOSTRAR_CITAS_DIA;
+		else
+			return Opciones.SALIR;
 		
-		}
-		
-		return opcion;	
-	
 	}
 	
 	public static Cita leerCita() throws UnsupportedOperationException {
