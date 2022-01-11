@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 
 public class Paciente {
 
-	private static String ER_DNI = "(([0-9]{8})([a-z]))";
+	private static String ER_DNI = "(([0-9]{8})([A-Z|a-z]))";
 	private static String ER_TELEFONO = "([0-9]{9})";
 	
 	private String nombre;
@@ -15,33 +15,33 @@ public class Paciente {
 
 	
 	
-	public Paciente(String dni, String nombre, String telefono) {
+	public Paciente( String nombre, String dni, String telefono) {
 
-		setDni(dni);
-		
 		setNombre(nombre);
-		
+		setDni(dni);
 		setTelefono(telefono);
-
 	}
+
 	public Paciente(Paciente paciente) {
 		if (paciente == null) 
-			throw new NullPointerException("paciente es null");	
-		setDni(paciente.getDni());
+			throw new NullPointerException("ERROR: No es posible copiar un paciente nulo.");	
 		setNombre(paciente.getNombre());
+		setDni(paciente.getDni());
 		setTelefono(paciente.getTelefono());
 	}
 
 	public String getNombre() {
 		return nombre;
 	}
+	
 	public void setNombre(String nombre) {
-		if (nombre == null) 
-			throw new NullPointerException("Error: nombre nulo");
+		if (nombre == null || nombre.trim().equals("")  ) 
+			throw new NullPointerException("ERROR: El nombre de un paciente no puede ser nulo o vacío.");
 		
 		this.nombre = formateaNombre(nombre);
 		
 	}
+	
 	public String getIniciales() {
 		String [] pts = getNombre().split("\\s");
 		String resultado = "";
@@ -56,14 +56,24 @@ public class Paciente {
 	
 	
 	private void setDni(String dni) {
+		
+		if (dni == null || dni.trim().equals("") ) 
+			throw new NullPointerException("ERROR: El DNI de un paciente no puede ser nulo o vacío.");
+		
 		if (comprobarLetraDni(dni)) 
 			this.dni = dni;
-		else throw new IllegalArgumentException("Error: dni no valido");
+		else 
+			throw new IllegalArgumentException("ERROR: La letra del DNI no es correcta.");
 	}
+	
 	public String getTelefono() {
 		return telefono;
 	}
+	
 	public void setTelefono(String telefono) {
+		
+		if (telefono == null || telefono.trim().equals("") )
+			throw new NullPointerException("ERROR: El teléfono de un paciente no puede ser nulo o vacío.");
 		
 		Pattern pattern = Pattern.compile(ER_TELEFONO);
 		Matcher matcher = pattern.matcher(telefono); 
@@ -71,7 +81,7 @@ public class Paciente {
 		if (matcher.matches()) {
 			this.telefono = matcher.group();
 		} else
-			throw new IllegalArgumentException("Error: Telefono no valido");
+			throw new IllegalArgumentException("ERROR: El teléfono no tiene un formato válido.");
 	}
 	
 	/*
@@ -83,7 +93,7 @@ public class Paciente {
 		char primeraLetra;
 		String aux, result="";
 		nombre = nombre.trim();
-		String [] pts = nombre.split("\\W+");
+		String [] pts = nombre.split("\\s+");// W+  words en ingles no llevan tildes s+ 1 o + espacios
 		
 		for (int i=0; i<pts.length; i++) {
 			primeraLetra = pts[i].charAt(0);
@@ -116,7 +126,7 @@ public class Paciente {
 			letra =  Character.toUpperCase( matcher.group(3).charAt(0) );
 
 		} else
-			throw new IllegalArgumentException("Formato de dni invalido");
+			throw new IllegalArgumentException("ERROR: El DNI no tiene un formato válido.");
 		
 		num = (num % 23);
 		
@@ -125,10 +135,12 @@ public class Paciente {
 		 else 
 			return false;	
 	}
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(dni, nombre, telefono);
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -145,8 +157,15 @@ public class Paciente {
 	
 	@Override
 	public String toString() {
-		return "Nombre: ("+this.getIniciales()+") "+this.getNombre()+" ,"+
-				"DNI:"+this.getDni()+", "+
-				"Telefono:"+this.getTelefono()+"";
+		return "nombre="+this.getNombre()+
+				" (" + this.getIniciales() + "), "+
+				"DNI="+this.getDni()+", "+
+				"teléfono="+this.getTelefono();
 	}
+	
+	public static void main(String args[]) {
+		Paciente p = new Paciente("José Ramón Jiménez Reyes", "23305525t", "950112233");
+		System.out.println(p.toString());
+	}
+	
 }

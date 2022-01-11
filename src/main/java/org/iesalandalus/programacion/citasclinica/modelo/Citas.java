@@ -13,7 +13,9 @@ public class Citas {
 	
 
 	public Citas(int n) {
-		if (n <= 0) 
+		if (n < 0) 
+			throw new IllegalArgumentException("ERROR: La capacidad debe ser mayor que cero.");
+		else if (n == 0) 
 			throw new IllegalArgumentException("Error:el número de citas debe ser positivo");
 		
 		capacidad = n;
@@ -67,7 +69,7 @@ public class Citas {
 			this.citas[this.tamano] = cita;
 			this.tamano++;			
 		} else
-			throw new OperationNotSupportedException("pasar tests");
+			throw new OperationNotSupportedException("ERROR: Ya existe una cita para esa fecha y hora.");
 	}
 	
 	private int buscarIndice(Cita cita) {
@@ -101,7 +103,7 @@ public class Citas {
 	
 	public Cita buscar(Cita cita) {
 		if (cita == null) 
-			throw new NullPointerException("Error: Cita es null");
+			throw new NullPointerException("Error: No se puede insertar una cita nula.");
 		
 		for (int i=0; i<getTamano(); i++ ) {
 			if (citas[i].getFechaHora().equals(cita.getFechaHora()))
@@ -111,6 +113,8 @@ public class Citas {
 	}
 	
 	public void borrar(Cita cita) {
+		if (cita == null) 
+			throw new NullPointerException("ERROR: No se puede borrar una cita nula.");
 		int indice = -1;
 		Cita buscada = buscar(cita);
 		if (buscada != null) {
@@ -146,39 +150,5 @@ public class Citas {
 		}
 		return msg+"\ntam:"+this.tamano;
 	}
-	/*
-	public static void main(String args[]) {
-		
-		Paciente paciente = new Paciente("23305525q","DaviD motOs olmedO","623456789");
-		LocalDateTime fechaHora = LocalDateTime.now(), fechaHora2, fechaHora3;
-		fechaHora2 = LocalDateTime.of(2020, 11, 1, 23, 59);
-	 	Cita cita1  = new Cita(paciente,fechaHora);
-		Cita cita2 = new Cita(paciente,fechaHora2);
-		System.out.println("cita1:"+cita1.toString());
-		System.out.println("cita2:"+cita2.toString());
-		Citas citas = new Citas(10);
-		System.out.println("capacidad:"+citas.getCapacidad());
-		try {
-			citas.insertar(cita1);
-			System.out.println("citas::"+citas.toString());
-			citas.insertar(cita2);
-			System.out.println("citas::total:"+citas.getTamano()+citas.toString());
 
-			Cita buscada = citas.buscar(cita2);
-			Cita buscada2 = citas.buscar(cita1);
-			citas.borrar(cita1);
-			System.out.println("borrada 1 total:"+citas.getTamano());
-			//citas.borrar(cita2);
-			//System.out.println("borrada 2 total:"+citas.getTamano());
-			buscada = citas.buscar(cita2);
-			//	System.out.println(cita1.toString());
-			System.out.println(citas.toString());
-			if (buscada != null) // throw en buscar ? 
-				System.out.println("buscada:" +buscada.toString());
-		} catch (NullPointerException e) {
-			System.out.println(e.getMessage());
-		} catch (OperationNotSupportedException e) {
-			System.out.println(e.getMessage());
-		}
-	} 		*/
 }

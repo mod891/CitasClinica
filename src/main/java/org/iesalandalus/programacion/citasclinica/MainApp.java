@@ -15,6 +15,7 @@ public class MainApp {
 
 	private static final int NUM_MAX_CITAS = 1;
 	private static Citas citasClinica = null;
+	
 	public MainApp() {
 		citasClinica = new Citas(2);
 	
@@ -50,7 +51,7 @@ public class MainApp {
 		LocalDateTime fechaHora = Consola.leerFechaHora();
 		
 		// setPaciente throw !null
-		Cita buscada = new Cita(new Paciente("23305525q","a","123123123"), fechaHora);
+		Cita buscada = new Cita(new Paciente("a","11223344B","123123123"), fechaHora);
 		buscada = citasClinica.buscar(buscada); 
 		if (buscada == null) {
 			System.out.println("La cita buscada no existe");
@@ -61,7 +62,7 @@ public class MainApp {
 	
 	public void borrarCita() {
 		LocalDateTime fechaHora = Consola.leerFechaHora();
-		Cita cita = new Cita(new Paciente("23305525q","a","123123123"), fechaHora);
+		Cita cita = new Cita(new Paciente("a","11223344B","123123123"), fechaHora);
 		citasClinica.borrar(cita);
 	}
 	
@@ -69,7 +70,6 @@ public class MainApp {
 		LocalDate fecha = Consola.leerFecha();
 		Cita[] citas = citasClinica.getCitas(fecha);
 		if (citas != null) {
-			System.out.println("Citas del dia "+fecha.toString());
 			for (int i=0; i < citas.length; i++) {
 				System.out.println(citas[i].toString());
 			}

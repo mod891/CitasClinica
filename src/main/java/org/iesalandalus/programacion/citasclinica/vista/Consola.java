@@ -66,7 +66,7 @@ public class Consola {
 		System.out.println("telefono:");
 		telefono = Entrada.cadena();
 		
-		return new Paciente(dni,nombre,telefono);
+		return new Paciente(nombre,dni,telefono);
 		 
 	}
 	/*
@@ -122,8 +122,8 @@ public class Consola {
 			fecha = Entrada.cadena();
 		
 			try {
-				pts = fecha.split("/");
-				localDate = LocalDate.of(Integer.parseInt(pts[0]),Integer.parseInt(pts[1]),Integer.parseInt(pts[2]));
+				pts = fecha.split("/");//d m a → a m d
+				localDate = LocalDate.of(Integer.parseInt(pts[2]),Integer.parseInt(pts[1]),Integer.parseInt(pts[0]));
 				fechaValida = true;
 			} catch (DateTimeException e) {
 				System.out.println(e.getMessage());

@@ -5,7 +5,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 public class Cita {
 
-	private static final String FORMATO_FECHA_HORA = "dd MM yyyy";
+	private static final String FORMATO_FECHA_HORA = "dd/MM/yyyy HH:mm";
 	private LocalDateTime fechaHora;
 	private Paciente paciente = null;
 	
@@ -17,8 +17,10 @@ public class Cita {
 	}
 	
 	public Cita(Cita cita) {
-		if (cita == null) 
-			throw new NullPointerException("Error: Cita null");
+		
+		if (cita == null) { 
+			throw new NullPointerException("ERROR: No se puede copiar una cita nula.");
+		}
 		setFechaHora(cita.getFechaHora());
 		setPaciente(cita.getPaciente());
 	}
@@ -28,8 +30,9 @@ public class Cita {
 	}
 
 	public void setFechaHora(LocalDateTime fechaHora) {
-		
-		if (fechaHora == null) throw new NullPointerException("Error: fechaHora nulo");
+
+		if (fechaHora == null)
+			throw new NullPointerException("ERROR: La fecha y hora de una cita no puede ser nula.");
 
 	//	DateTimeFormatter formatter = DateTimeFormatter.ofPattern(FORMATO_FECHA_HORA);
 	//	this.fechaHora = LocalDateTime.parse("11 08 1991",formatter);
@@ -43,8 +46,9 @@ public class Cita {
 	}
 
 	public void setPaciente(Paciente paciente) {
+		
 		if (paciente == null) 
-			throw new NullPointerException("Error: paciente nulo");
+			throw new NullPointerException("ERROR: El paciente de una cita no puede ser nulo.");
 			
 		this.paciente = new Paciente(paciente);
 	}
@@ -70,7 +74,18 @@ public class Cita {
 
 	@Override
 	public String toString() {
-		return "Cita [fechaHora=" + fechaHora + ", paciente=" + paciente.toString() + "]";
+		return "Cita [fechaHora=" + fechaHora.format(DateTimeFormatter.ofPattern(FORMATO_FECHA_HORA)) + ", paciente=" + paciente.toString() + "]";
 	}
-
+	/*
+	 raro. en el test falla diciendo que no salta la excepcion. pero recreo el test aquí y si salta
+	public static void main(String args[]) {
+		Cita cita = null;
+		Paciente paciente1 = new Paciente("José Ramón Jiménez Reyes", "11223344B", "950112233");
+		try {
+			cita = new Cita(paciente1, null);
+		} catch (Exception e) {
+			System.out.println(e.getMessage()+cita);
+		}
+	}
+*/
 }
