@@ -91,7 +91,7 @@ public class Citas {
 		if (val > getTamano())
 			return true;	
 		else
-			return true;	
+			return false;	
 	}
 	
 	private boolean capacidadSuperada(int val) {
